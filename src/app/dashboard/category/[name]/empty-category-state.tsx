@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
-import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism"
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism"
 
 export const EmptyCategoryState = ({
   categoryName,
@@ -33,74 +33,76 @@ export const EmptyCategoryState = ({
     if (hasEvents) router.refresh()
   }, [hasEvents, router])
 
-  const codeSnippet = `await fetch('http://localhost:3000/api/events', {
+  const codeSnippet = `await fetch('https://procmon.sh/api/v1/events', {
   method: 'POST',
   headers: {
-    'Authorization': 'Bearer YOUR_API_KEY'
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
   },
   body: JSON.stringify({
     category: '${categoryName}',
     fields: {
-      field1: 'value1', // for example: user id
-      field2: 'value2' // for example: user email
+      field1: 'value1', // e.g. user_id
+      field2: 'value2' // e.g. email
     }
   })
 })`
 
   return (
     <Card
-      contentClassName="max-w-2xl w-full flex flex-col items-center p-6"
-      className="flex-1 flex items-center justify-center"
+      contentClassName="max-w-2xl w-full flex flex-col items-center p-6 bg-card"
+      className="flex-1 flex items-center justify-center rounded-none border border-foreground/10 shadow-[3px_3px_0_0_rgba(0,0,0,0.05)]"
     >
-      <h2 className="text-2xl font-bold text-center tracking-tight text-gray-900 dark:text-white">
+      <h2 className="text-xl font-mono uppercase tracking-wider font-bold text-center text-foreground">
         Create your first {categoryName} event
       </h2>
-      <p className="text-base text-gray-500 dark:text-gray-400 mb-8 max-w-md text-center text-pretty mt-2">
+      <p className="text-xs font-mono text-foreground/60 mb-8 max-w-md text-center mt-2">
         Get started by sending a request to our tracking API:
       </p>
 
-      <div className="w-full max-w-3xl rounded-2xl shadow-xl overflow-hidden border border-gray-200/50 dark:border-gray-700/50">
-        <div className="bg-gray-800 dark:bg-gray-900 px-4 py-3 flex justify-between items-center">
-          <div className="flex space-x-2">
-            <div className="size-3 rounded-full bg-red-500" />
-            <div className="size-3 rounded-full bg-yellow-500" />
-            <div className="size-3 rounded-full bg-green-500" />
+      <div className="w-full max-w-3xl rounded-none overflow-hidden border border-foreground/10 shadow-[2px_2px_0_0_rgba(0,0,0,0.05)]">
+        <div className="bg-foreground/[0.02] border-b border-foreground/10 px-4 py-2.5 flex justify-between items-center">
+          <div className="flex space-x-1.5">
+            <div className="size-2 bg-primary" />
+            <div className="size-2 bg-foreground/20" />
+            <div className="size-2 bg-foreground/10" />
           </div>
 
-          <span className="text-gray-400 text-sm">your-first-event.js</span>
+          <span className="text-foreground/50 font-mono text-xs">your-first-event.js</span>
         </div>
 
         <SyntaxHighlighter
           language="javascript"
-          style={atomDark}
+          style={oneDark}
           customStyle={{
             borderRadius: "0px",
             margin: 0,
             padding: "1rem",
-            fontSize: "0.875rem",
+            fontSize: "0.8rem",
             lineHeight: "1.5",
+            background: "transparent",
           }}
         >
           {codeSnippet}
         </SyntaxHighlighter>
       </div>
 
-      <div className="mt-8 flex flex-col items-center space-x-2">
+      <div className="mt-8 flex flex-col items-center">
         <div className="flex gap-2 items-center">
-          <div className="size-2 bg-green-500 rounded-full animate-pulse" />
-          <span className="text-sm text-gray-600 dark:text-gray-400">
+          <div className="size-2 bg-emerald-500 animate-pulse rounded-none" />
+          <span className="text-xs font-mono uppercase tracking-wider text-foreground/70">
             Listening to incoming events...
           </span>
         </div>
 
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+        <p className="text-xs font-mono uppercase tracking-wider text-foreground/50 mt-4 text-center">
           Need help? Check out our{" "}
-          <a href="#" className="text-brand-600 dark:text-brand-400 hover:underline">
-            documentation
+          <a href="#" className="text-primary hover:underline font-bold">
+            docs
           </a>{" "}
           or{" "}
-          <a href="#" className="text-brand-600 dark:text-brand-400 hover:underline">
-            contact support
+          <a href="#" className="text-primary hover:underline font-bold">
+            support
           </a>
           .
         </p>

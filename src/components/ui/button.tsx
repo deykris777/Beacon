@@ -4,25 +4,25 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-none text-xs font-mono uppercase tracking-wider font-bold transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
   {
     variants: {
       variant: {
         default:
-          "bg-gradient-to-r from-brand-600 to-brand-700 text-white shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 hover:from-brand-700 hover:to-brand-800",
+          "bg-primary text-primary-foreground border border-foreground/10 shadow-[2px_2px_0_0_rgba(0,0,0,0.15)] hover:-translate-y-0.5 hover:shadow-[3px_3px_0_0_#111111] dark:hover:shadow-[3px_3px_0_0_#FFF7CD]",
         destructive:
-          "bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-500/25 hover:shadow-red-500/40 hover:from-red-600 hover:to-red-700",
+          "bg-rose-600 text-white border border-foreground/10 shadow-[2px_2px_0_0_rgba(0,0,0,0.15)] hover:-translate-y-0.5 hover:shadow-[3px_3px_0_0_#111111]",
         outline:
-          "border border-gray-200/50 dark:border-gray-700/50 bg-white/50 dark:bg-gray-800/50 shadow-sm hover:bg-white dark:hover:bg-gray-800 hover:shadow-md text-gray-700 dark:text-gray-300",
+          "border border-foreground/10 bg-background text-foreground shadow-[2px_2px_0_0_rgba(0,0,0,0.05)] hover:bg-foreground/5",
         secondary:
-          "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700",
-        ghost: "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300",
-        link: "text-brand-600 dark:text-brand-400 underline-offset-4 hover:underline",
+          "bg-secondary text-secondary-foreground border border-foreground/10 shadow-[2px_2px_0_0_rgba(0,0,0,0.05)] hover:bg-secondary/95",
+        ghost: "hover:bg-foreground/5 text-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-11 px-5 py-2",
-        sm: "h-9 rounded-xl px-3 text-xs",
-        lg: "h-12 rounded-xl px-8",
+        default: "h-10 px-5 py-2",
+        sm: "h-8 px-3 text-[10px]",
+        lg: "h-12 px-8 text-sm",
         icon: "h-9 w-9",
       },
     },

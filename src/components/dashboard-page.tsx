@@ -3,9 +3,7 @@
 import { ReactNode } from "react"
 import { Button } from "./ui/button"
 import { ArrowLeft } from "lucide-react"
-import { Heading } from "./heading"
 import { useRouter } from "next/navigation"
-import { cn } from "@/utils"
 
 interface DashboardPageProps {
   title: string
@@ -24,33 +22,28 @@ export const DashboardPage = ({
 
   return (
     <section className="flex-1 h-full w-full flex flex-col">
-      <div className="w-full p-6 sm:p-8 flex justify-between border-b border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-r from-white/50 to-transparent dark:from-gray-800/50 dark:to-transparent backdrop-blur-sm">
-        <div className="w-full flex flex-col sm:flex-row items-start sm:items-center gap-6">
-          <div className="flex items-center gap-8">
+      <div className="w-full pb-6 mb-6 flex justify-between border-b border-foreground/10 bg-transparent">
+        <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
             {hideBackButton ? null : (
-              <Button
+              <button
                 onClick={() => router.push("/dashboard")}
-                className="w-fit rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200/50 dark:border-gray-700/50 hover:bg-white dark:hover:bg-gray-800 hover:shadow-lg transition-all duration-200"
-                variant="outline"
+                className="p-2 border border-foreground/10 bg-card hover:border-primary hover:text-primary transition-colors cursor-pointer"
               >
                 <ArrowLeft className="size-4" />
-              </Button>
+              </button>
             )}
-            <h1
-              className={cn(
-                "text-3xl sm:text-4xl text-pretty font-bold tracking-tight text-gray-900 dark:text-white",
-              )}>
+            <h1 className="text-2xl sm:text-3xl font-mono uppercase tracking-wider font-bold text-foreground">
               {title}
             </h1>
           </div>
-          {cta ? <div className="w-full">{cta}</div> : null}
+          {cta ? <div className="w-full sm:w-auto">{cta}</div> : null}
         </div>
       </div>
 
-      <div className="flex-1 p-6 sm:p-8 flex flex-col overflow-y-auto">
+      <div className="flex-1 flex flex-col overflow-y-auto">
         {children}
       </div>
     </section>
   )
 }
-

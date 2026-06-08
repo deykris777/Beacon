@@ -30,7 +30,7 @@ const Page = () => {
     <div className="flex w-full flex-1 items-center justify-center px-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950 relative overflow-hidden">
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand-500/20 rounded-full blur-3xl dark:bg-brand-500/10" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl dark:bg-purple-500/10" />
-      
+
       <BackgroundPattern className="absolute inset-0 left-1/2 z-0 -translate-x-1/2 opacity-50 dark:opacity-[0.02]" />
 
       <div className="relative z-10 flex -translate-y-1/2 flex-col items-center gap-6 text-center">

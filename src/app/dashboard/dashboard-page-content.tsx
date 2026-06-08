@@ -1,7 +1,7 @@
 "use client"
 
 import { LoadingSpinner } from "@/components/loading-spinner"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { client } from "@/lib/client"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { format, formatDistanceToNow } from "date-fns"
@@ -9,7 +9,8 @@ import { ArrowRight, BarChart2, Clock, Database, Trash2 } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 import { DashboardEmptyState } from "./dashboard-empty-state"
-import { Modal } from "@/components/ui/model"
+import { Modal } from "@/components/ui/modal"
+import { Card } from "@/components/ui/card"
 
 export const DashboardPageContent = () => {
   const [deletingCategory, setDeletingCategory] = useState<string | null>(null)
@@ -54,76 +55,71 @@ export const DashboardPageContent = () => {
         {categories.map((category) => (
           <li
             key={category.id}
-            className="relative group z-10 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02]"
+            className="relative group z-10 transition-all duration-200"
           >
-            <div className="relative rounded-2xl bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl border border-white/20 dark:border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.2)] overflow-hidden transition-all duration-300 group-hover:shadow-[0_16px_48px_rgba(0,0,0,0.12)] dark:group-hover:shadow-[0_16px_48px_rgba(0,0,0,0.4)]">
-              {/* Glass shine effect */}
-              <div className="absolute inset-0 bg-gradient-to-b from-white/40 to-transparent dark:from-white/5 dark:to-transparent pointer-events-none" />
-
-              <div className="relative p-6 z-10">
-                <div className="flex items-center gap-4 mb-6">
-                  <div
-                    className="size-12 rounded-xl shadow-lg flex items-center justify-center text-xl"
-                    style={{
-                      backgroundColor: category.color
-                        ? `#${category.color.toString(16).padStart(6, "0")}`
-                        : "#f3f4f6",
-                    }}
-                  >
-                    {category.emoji || "📂"}
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
-                      {category.name}
-                    </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {format(category.createdAt, "MMM d, yyyy")}
-                    </p>
-                  </div>
+            <Card className="h-full bg-card border-foreground/10 p-6 shadow-[3px_3px_0_0_rgba(0,0,0,0.05)]">
+              <div className="flex items-center gap-4 mb-6">
+                <div
+                  className="size-12 rounded-none border border-foreground/10 shadow-[2px_2px_0_0_rgba(0,0,0,0.05)] flex items-center justify-center text-xl"
+                  style={{
+                    backgroundColor: category.color
+                      ? `#${category.color.toString(16).padStart(6, "0")}`
+                      : "#f3f4f6",
+                  }}
+                >
+                  {category.emoji || "📂"}
                 </div>
 
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                    <Clock className="size-4 mr-2 text-brand-500" />
-                    <span className="font-medium">Last ping:</span>
-                    <span className="ml-1">
-                      {category.lastPing
-                        ? formatDistanceToNow(category.lastPing) + " ago"
-                        : "Never"}
-                    </span>
-                  </div>
-                  <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                    <Database className="size-4 mr-2 text-brand-500" />
-                    <span className="font-medium">Unique fields:</span>
-                    <span className="ml-1">{category.uniqueFieldCount || 0}</span>
-                  </div>
-                  <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                    <BarChart2 className="size-4 mr-2 text-brand-500" />
-                    <span className="font-medium">Events this month:</span>
-                    <span className="ml-1">{category.eventsCount || 0}</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200/50 dark:border-gray-700/50">
-                  <Link
-                    href={`/dashboard/category/${category.name}`}
-                    className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white/50 dark:bg-gray-700/50 rounded-xl border border-gray-200/50 dark:border-gray-600/50 hover:bg-white dark:hover:bg-gray-700 hover:shadow-md transition-all duration-200"
-                  >
-                    View all <ArrowRight className="size-4" />
-                  </Link>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-xl transition-all duration-200"
-                    aria-label={`Delete ${category.name} category`}
-                    onClick={() => setDeletingCategory(category.name)}
-                  >
-                    <Trash2 className="size-5" />
-                  </Button>
+                <div>
+                  <h3 className="text-sm font-mono uppercase tracking-wider font-bold text-foreground">
+                    {category.name}
+                  </h3>
+                  <p className="text-xs font-mono text-foreground/40">
+                    {format(category.createdAt, "MMM d, yyyy")}
+                  </p>
                 </div>
               </div>
-            </div>
+
+              <div className="space-y-3 mb-6 font-mono text-xs text-foreground/70">
+                <div className="flex items-center">
+                  <Clock className="size-3.5 mr-2 text-primary" />
+                  <span className="font-bold">Last ping:</span>
+                  <span className="ml-1 uppercase">
+                    {category.lastPing
+                      ? formatDistanceToNow(category.lastPing) + " ago"
+                      : "Never"}
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <Database className="size-3.5 mr-2 text-primary" />
+                  <span className="font-bold">Unique fields:</span>
+                  <span className="ml-1">{category.uniqueFieldCount || 0}</span>
+                </div>
+                <div className="flex items-center">
+                  <BarChart2 className="size-3.5 mr-2 text-primary" />
+                  <span className="font-bold">Events this month:</span>
+                  <span className="ml-1">{category.eventsCount || 0}</span>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between mt-4 pt-4 border-t border-foreground/10">
+                <Link
+                  href={`/dashboard/category/${category.name}`}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-mono uppercase tracking-wider text-foreground bg-background border border-foreground/10 shadow-[2px_2px_0_0_rgba(0,0,0,0.05)] hover:shadow-[3px_3px_0_0_#DC143C] hover:border-primary transition-all duration-150 cursor-pointer"
+                >
+                  View all <ArrowRight className="size-3.5" />
+                </Link>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-foreground/40 hover:text-primary hover:bg-primary/5 rounded-none transition-colors duration-150 cursor-pointer"
+                  aria-label={`Delete ${category.name} category`}
+                  onClick={() => setDeletingCategory(category.name)}
+                >
+                  <Trash2 className="size-4" />
+                </Button>
+              </div>
+            </Card>
           </li>
         ))}
       </ul>
@@ -131,32 +127,35 @@ export const DashboardPageContent = () => {
       <Modal
         showModal={!!deletingCategory}
         setShowModal={() => setDeletingCategory(null)}
-        className="max-w-md p-8"
+        className="max-w-md p-8 border border-foreground/10 bg-card rounded-none"
       >
         <div className="space-y-6">
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+            <h2 className="text-lg font-mono uppercase tracking-wider font-bold text-foreground">
               Delete Category
             </h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+            <p className="text-xs font-mono text-foreground/60 mt-2">
               Are you sure you want to delete the category "{deletingCategory}"?
               This action cannot be undone.
             </p>
           </div>
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200/50 dark:border-gray-700/50">
-            <Button variant="outline" onClick={() => setDeletingCategory(null)}>
+          <div className="flex justify-end gap-3 pt-4 border-t border-foreground/10">
+            <button
+              onClick={() => setDeletingCategory(null)}
+              className="px-4 py-2 text-xs font-mono uppercase tracking-wider border border-foreground/10 bg-background text-foreground hover:bg-foreground/5 cursor-pointer"
+            >
               Cancel
-            </Button>
-            <Button
-              variant="destructive"
+            </button>
+            <button
               onClick={() =>
                 deletingCategory && deleteCategory(deletingCategory)
               }
               disabled={isDeletingCategory}
+              className="px-4 py-2 text-xs font-mono uppercase tracking-wider bg-primary text-background hover:bg-primary/95 cursor-pointer"
             >
               {isDeletingCategory ? "Deleting..." : "Delete"}
-            </Button>
+            </button>
           </div>
         </div>
       </Modal>

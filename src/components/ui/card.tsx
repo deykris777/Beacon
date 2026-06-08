@@ -14,13 +14,11 @@ export const Card = ({
   return (
     <div
       className={cn(
-        "relative rounded-2xl bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl border border-white/20 dark:border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.2)] text-card-foreground overflow-hidden transition-all duration-200 hover:shadow-[0_12px_40px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_12px_40px_rgba(0,0,0,0.3)]",
+        "relative rounded-none bg-card border border-foreground/10 shadow-[3px_3px_0_0_rgba(0,0,0,0.05)] dark:shadow-[3px_3px_0_0_rgba(255,255,255,0.02)] text-card-foreground transition-all duration-200 hover:shadow-[4px_4px_0_0_#DC143C] hover:border-primary",
         className
       )}
       {...props}
     >
-      {/* Glass shine effect */}
-      <div className="absolute inset-0 bg-gradient-to-b from-white/40 to-transparent dark:from-white/5 dark:to-transparent pointer-events-none" />
       <div className={cn("relative z-10 p-6", contentClassName)}>
         {children}
       </div>

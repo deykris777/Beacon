@@ -1,6 +1,5 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -17,33 +16,31 @@ export const ApiKeySettings = ({ apiKey }: { apiKey: string }) => {
   }
 
   return (
-    <Card className="max-w-xl w-full">
+    <Card className="max-w-xl w-full bg-card border-foreground/10 rounded-none shadow-[3px_3px_0_0_rgba(0,0,0,0.05)]">
       <div>
-        <Label className="text-gray-700 dark:text-gray-300 font-medium">Your API Key</Label>
+        <Label className="text-foreground/75 font-mono text-xs uppercase tracking-wider font-bold">Your API Key</Label>
         <div className="mt-2 relative">
-          <Input 
-            className="pr-12 rounded-xl bg-white/50 dark:bg-gray-800/50 border-gray-200/50 dark:border-gray-700/50 text-gray-900 dark:text-white" 
-            type="password" 
-            value={apiKey} 
-            readOnly 
+          <Input
+            className="pr-12 rounded-none bg-background border-foreground/15 text-foreground font-mono text-xs focus-visible:ring-primary"
+            type="password"
+            value={apiKey}
+            readOnly
           />
           <div className="absolute inset-y-0 right-0 flex items-center pr-1">
-            <Button
-              variant="ghost"
-              size="sm"
+            <button
               onClick={copyApiKey}
-              className="h-8 w-8 p-0 rounded-lg hover:bg-brand-50 dark:hover:bg-brand-950/30 transition-all"
+              className="h-8 w-8 flex items-center justify-center border border-foreground/10 bg-card hover:border-primary hover:text-primary transition-colors cursor-pointer"
             >
               {copySuccess ? (
-                <CheckIcon className="size-4 text-green-500" />
+                <CheckIcon className="size-4 text-emerald-500" />
               ) : (
-                <ClipboardIcon className="size-4 text-gray-500 dark:text-gray-400" />
+                <ClipboardIcon className="size-4 text-foreground/45" />
               )}
-            </Button>
+            </button>
           </div>
         </div>
 
-        <p className="mt-3 text-sm text-gray-500 dark:text-gray-400">
+        <p className="mt-3 text-xs font-mono text-foreground/50 uppercase tracking-wider">
           Keep your key secret and do not share it with others.
         </p>
       </div>

@@ -1,6 +1,5 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -24,33 +23,35 @@ export const AccountSettings = ({
   })
 
   return (
-    <Card className="max-w-xl w-full space-y-4">
-      <div className="pt-2">
-        <Label className="text-gray-700 dark:text-gray-300 font-medium">Discord ID</Label>
-        <Input
-          className="mt-2 rounded-xl bg-white/50 dark:bg-gray-800/50 border-gray-200/50 dark:border-gray-700/50 text-gray-900 dark:text-white"
-          value={discordId}
-          onChange={(e) => setDiscordId(e.target.value)}
-          placeholder="Enter your Discord ID"
-        />
-      </div>
+    <Card className="max-w-xl w-full bg-card border-foreground/10 rounded-none shadow-[3px_3px_0_0_rgba(0,0,0,0.05)]">
+      <div className="space-y-4">
+        <div>
+          <Label className="text-foreground/75 font-mono text-xs uppercase tracking-wider font-bold">Discord ID</Label>
+          <Input
+            className="mt-2 rounded-none bg-background border-foreground/15 text-foreground font-mono text-xs focus-visible:ring-primary"
+            value={discordId}
+            onChange={(e) => setDiscordId(e.target.value)}
+            placeholder="Enter your Discord ID"
+          />
+        </div>
 
-      <p className="text-sm text-gray-500 dark:text-gray-400">
-        Don't know how to find your Discord ID?{" "}
-        <Link href="#" className="text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 underline transition-colors">
-          Learn how to obtain it here
-        </Link>
-        .
-      </p>
+        <p className="text-xs font-mono text-foreground/50 uppercase tracking-wider">
+          Don't know how to find your Discord ID?{" "}
+          <Link href="#" className="text-primary hover:underline font-bold transition-colors">
+            Learn how
+          </Link>
+          .
+        </p>
 
-      <div className="pt-4">
-        <Button 
-          onClick={() => mutate(discordId)} 
-          disabled={isPending}
-          className="rounded-xl bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 transition-all duration-200"
-        >
-          {isPending ? "Saving..." : "Save Changes"}
-        </Button>
+        <div className="pt-2">
+          <button
+            onClick={() => mutate(discordId)}
+            disabled={isPending}
+            className="pixel-btn pixel-btn-primary px-6 py-2.5 text-xs cursor-pointer"
+          >
+            {isPending ? "Saving..." : "Save Changes"}
+          </button>
+        </div>
       </div>
     </Card>
   )

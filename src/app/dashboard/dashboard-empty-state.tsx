@@ -1,5 +1,4 @@
 import { CreateEventCategoryModal } from "@/components/create-event-category-modal"
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { client } from "@/lib/client"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
@@ -17,38 +16,37 @@ export const DashboardEmptyState = () => {
   })
 
   return (
-    <Card className="flex flex-col items-center justify-center flex-1 text-center p-8">
-      <div className="flex justify-center w-full">
+    <Card className="flex flex-col items-center justify-center flex-1 text-center p-8 bg-card border-foreground/10 rounded-none shadow-[3px_3px_0_0_rgba(0,0,0,0.05)]">
+      <div className="flex justify-center w-full mb-6">
         <img
           src="/brand-asset-wave.png"
           alt="No categories"
-          className="size-48 -mt-24"
+          className="size-36 object-contain"
         />
       </div>
 
-      <h1 className="mt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+      <h1 className="text-xl font-mono uppercase tracking-wider font-bold text-foreground">
         No Event Categories Yet
       </h1>
 
-      <p className="text-base text-gray-500 dark:text-gray-400 max-w-prose mt-3 mb-8">
+      <p className="text-xs font-mono text-foreground/60 max-w-prose mt-2 mb-8">
         Start tracking events by creating your first category.
       </p>
 
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <Button
-          variant="outline"
-          className="flex items-center gap-2 w-full sm:w-auto rounded-xl bg-white/50 dark:bg-gray-800/50 border-gray-200/50 dark:border-gray-700/50 hover:bg-white dark:hover:bg-gray-800 hover:shadow-lg transition-all duration-200"
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+        <button
+          className="pixel-btn px-6 py-2.5 text-xs w-full sm:w-auto flex items-center justify-center gap-2 cursor-pointer"
           onClick={() => insertQuickstartCategories()}
           disabled={isPending}
         >
-          <span className="size-5">🚀</span>
+          <span>🚀</span>
           <span>{isPending ? "Creating..." : "Quickstart"}</span>
-        </Button>
+        </button>
 
         <CreateEventCategoryModal containerClassName="w-full sm:w-auto">
-          <Button className="flex items-center gap-2 w-full sm:w-auto rounded-xl bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 transition-all duration-200">
+          <button className="pixel-btn pixel-btn-primary px-6 py-2.5 text-xs w-full sm:w-auto flex items-center justify-center gap-2 cursor-pointer">
             <span>Add Category</span>
-          </Button>
+          </button>
         </CreateEventCategoryModal>
       </div>
     </Card>

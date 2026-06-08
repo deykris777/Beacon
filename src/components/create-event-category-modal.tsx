@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { CATEGORY_NAME_VALIDATOR } from "@/lib/validators/category-validator"
-import { Modal } from "./ui/model"
+import { Modal } from "./ui/modal"
 import { Label } from "./ui/label"
 import { Input } from "./ui/input"
 import { cn } from "@/utils"
@@ -189,10 +189,10 @@ export const CreateEventCategoryModal = ({
             >
               Cancel
             </Button>
-            <Button 
-              disabled={isPending} 
+            <Button
+              disabled={isPending}
               type="submit"
-              className="rounded-xl bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 shadow-lg shadow-brand-500/25"
+              className="rounded-xl bg-linear-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 shadow-lg shadow-brand-500/25"
             >
               {isPending ? "Creating..." : "Create Category"}{" "}
             </Button>

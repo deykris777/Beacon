@@ -1,5 +1,20 @@
-export { GSAPProvider } from "./gsap-provider"
-export { GlassCard, NeoButton, LiquidBlob } from "./glass-effects"
-export { CurvySeparator, FloatingElement, MagneticElement, ScrollProgress } from "./curvy-elements"
-export { AnimatedText, CountUp, Marquee, Reveal } from "./animated-text"
-export { LandingPageContent } from "./landing-page-content"
+"use client"
+
+import { GSAPProvider } from "@/components/landing/gsap-provider"
+import { GlassCard, NeoButton, LiquidBlob } from "@/components/landing/glass-effects"
+import { FloatingElement, MagneticElement, ScrollProgress } from "@/components/landing/curvy-elements"
+import { AnimatedText, CountUp } from "@/components/landing/animated-text"
+import { CyberBackground } from "@/components/landing/cyber-background"
+
+export {
+  GSAPProvider,
+  GlassCard,
+  NeoButton,
+  LiquidBlob,
+  FloatingElement,
+  MagneticElement,
+  ScrollProgress,
+  AnimatedText,
+  CountUp,
+  CyberBackground,
+}

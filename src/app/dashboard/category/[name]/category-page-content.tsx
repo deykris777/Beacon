@@ -23,7 +23,6 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table"
-import { Button } from "@/components/ui/button"
 import { cn } from "@/utils"
 import { Heading } from "@/components/heading"
 import {
@@ -50,7 +49,6 @@ export const CategoryPageContent = ({
     "today"
   )
 
-  // https://localhost:3000/dashboard/category/sale?page=5&limit=30
   const page = parseInt(searchParams.get("page") || "1", 10)
   const limit = parseInt(searchParams.get("limit") || "30", 10)
 
@@ -91,27 +89,26 @@ export const CategoryPageContent = ({
       {
         accessorKey: "category",
         header: "Category",
-        cell: () => <span className="dark:text-zinc-900">{category.name || "Uncategorized"}</span>,
+        cell: () => <span className="font-mono text-xs text-foreground/80">{category.name || "Uncategorized"}</span>,
       },
       {
         accessorKey: "createdAt",
         header: ({ column }) => {
           return (
-            <Button
-              variant="ghost"
+            <button
               onClick={() =>
                 column.toggleSorting(column.getIsSorted() === "asc")
               }
-              className="dark:text-zinc-700 dark:hover:text-zinc-100 dark:hover:bg-zinc-500"
+              className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-foreground/75 hover:text-foreground cursor-pointer"
             >
               Date
-              <ArrowUpDown className="ml-2 size-4" />
-            </Button>
+              <ArrowUpDown className="size-3.5" />
+            </button>
           )
         },
         cell: ({ row }) => {
           return (
-            <span className="dark:text-zinc-900">
+            <span className="font-mono text-xs text-foreground/80">
               {new Date(row.getValue("createdAt")).toLocaleString()}
             </span>
           )
@@ -123,9 +120,9 @@ export const CategoryPageContent = ({
             (row.fields as Record<string, any>)[field],
           header: field,
           cell: ({ row }: { row: Row<Event> }) => (
-            <span className="dark:text-zinc-900">
-              {(row.original.fields as Record<string, any>)[field] || "-"}
-            </span >
+            <span className="font-mono text-xs text-foreground/80">
+              {String((row.original.fields as Record<string, any>)[field] || "-")}
+            </span>
           ),
         }))
         : []),
@@ -134,12 +131,12 @@ export const CategoryPageContent = ({
         header: "Delivery Status",
         cell: ({ row }) => (
           <span
-            className={cn("px-2 py-1 rounded-full text-xs font-semibold", {
-              "bg-green-100 text-green-800":
+            className={cn("px-2 py-1 rounded-none text-[10px] font-mono font-bold uppercase tracking-wider", {
+              "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-400":
                 row.getValue("deliveryStatus") === "DELIVERED",
-              "bg-red-100 text-red-800":
+              "bg-rose-100 text-rose-800 dark:bg-rose-950/30 dark:text-rose-400":
                 row.getValue("deliveryStatus") === "FAILED",
-              "bg-yellow-100 text-yellow-800":
+              "bg-amber-100 text-amber-800 dark:bg-amber-950/30 dark:text-amber-400":
                 row.getValue("deliveryStatus") === "PENDING",
             })}
           >
@@ -174,7 +171,6 @@ export const CategoryPageContent = ({
     },
   })
 
-
   const router = useRouter()
 
   useEffect(() => {
@@ -183,7 +179,6 @@ export const CategoryPageContent = ({
     searchParams.set("limit", pagination.pageSize.toString())
     router.push(`?${searchParams.toString()}`, { scroll: false })
   }, [pagination, router])
-
 
   const numericFieldSums = useMemo(() => {
     if (!data?.events || data.events.length === 0) return {}
@@ -249,17 +244,17 @@ export const CategoryPageContent = ({
             : sums.thisMonth
 
       return (
-        <Card key={field}>
-          <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+        <Card key={field} className="bg-card border-foreground/10 p-5 shadow-[3px_3px_0_0_rgba(0,0,0,0.05)]">
+          <div className="flex flex-row items-center justify-between pb-2">
+            <p className="text-xs font-mono uppercase tracking-wider text-foreground/70">
               {field.charAt(0).toUpperCase() + field.slice(1)}
             </p>
-            <BarChart className="size-4 text-brand-500" />
+            <BarChart className="size-4 text-primary" />
           </div>
 
           <div>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">{relevantSum.toFixed(2)}</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+            <p className="text-xl font-mono font-bold text-primary">{relevantSum.toFixed(2)}</p>
+            <p className="text-[10px] font-mono text-foreground/40 uppercase">
               {activeTab === "today"
                 ? "today"
                 : activeTab === "week"
@@ -277,30 +272,30 @@ export const CategoryPageContent = ({
   }
 
   return (
-    <div className="space-y-6 ">
+    <div className="space-y-6">
       <Tabs
         value={activeTab}
         onValueChange={(value) => {
           setActiveTab(value as "today" | "week" | "month")
         }}
       >
-        <TabsList className="mb-2 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-xl p-1">
-          <TabsTrigger value="today" className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:shadow-sm">Today</TabsTrigger>
-          <TabsTrigger value="week" className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:shadow-sm">This Week</TabsTrigger>
-          <TabsTrigger value="month" className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:shadow-sm">This Month</TabsTrigger>
+        <TabsList className="mb-2 bg-card border border-foreground/10 rounded-none p-1 flex w-fit">
+          <TabsTrigger value="today" className="rounded-none data-[state=active]:bg-primary data-[state=active]:text-background data-[state=active]:shadow-none font-mono text-xs uppercase tracking-wider cursor-pointer">Today</TabsTrigger>
+          <TabsTrigger value="week" className="rounded-none data-[state=active]:bg-primary data-[state=active]:text-background data-[state=active]:shadow-none font-mono text-xs uppercase tracking-wider cursor-pointer">This Week</TabsTrigger>
+          <TabsTrigger value="month" className="rounded-none data-[state=active]:bg-primary data-[state=active]:text-background data-[state=active]:shadow-none font-mono text-xs uppercase tracking-wider cursor-pointer">This Month</TabsTrigger>
         </TabsList>
 
         <TabsContent value={activeTab}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
-            <Card className="border-2 border-brand-500/50">
-              <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Total Events</p>
-                <BarChart className="size-4 text-brand-500" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+            <Card className="border-primary bg-card p-5 shadow-[3px_3px_0_0_rgba(0,0,0,0.05)]">
+              <div className="flex flex-row items-center justify-between pb-2">
+                <p className="text-xs font-mono uppercase tracking-wider text-foreground/70">Total Events</p>
+                <BarChart className="size-4 text-primary" />
               </div>
 
               <div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{data?.eventsCount || 0}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className="text-xl font-mono font-bold text-primary">{data?.eventsCount || 0}</p>
+                <p className="text-[10px] font-mono text-foreground/40 uppercase">
                   Events{" "}
                   {activeTab === "today"
                     ? "today"
@@ -319,17 +314,17 @@ export const CategoryPageContent = ({
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <div className="w-full flex flex-col gap-4">
-            <Heading className="text-3xl text-gray-900 dark:text-white">Event overview</Heading>
+            <Heading className="text-xl font-mono uppercase tracking-wider font-bold text-foreground">Event overview</Heading>
           </div>
         </div>
 
-        <Card contentClassName="px-6 py-4">
+        <Card contentClassName="p-0 overflow-x-auto rounded-none">
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-foreground/[0.02] border-b border-foreground/10">
               {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id} className="border-gray-200/50 dark:border-gray-700/50 hover:bg-transparent">
+                <TableRow key={headerGroup.id} className="border-foreground/10 hover:bg-transparent">
                   {headerGroup.headers.map((header) => (
-                    <TableHead key={header.id} className="text-gray-700 dark:text-gray-300">
+                    <TableHead key={header.id} className="text-foreground/70 font-mono text-xs uppercase tracking-wider py-3 px-4">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -347,10 +342,10 @@ export const CategoryPageContent = ({
                 [...Array(5)].map((_, rowIndex) => (
                   <TableRow
                     key={rowIndex}
-                    className="border-gray-200/50 dark:border-gray-700/50">
+                    className="border-foreground/10">
                     {columns.map((_, cellIndex) => (
-                      <TableCell key={cellIndex}>
-                        <div className="h-4 w-full bg-gray-200 dark:bg-gray-700 animate-pulse rounded" />
+                      <TableCell key={cellIndex} className="p-4">
+                        <div className="h-4 w-full bg-foreground/5 animate-pulse rounded-none" />
                       </TableCell>
                     ))}
                   </TableRow>
@@ -359,12 +354,12 @@ export const CategoryPageContent = ({
                 table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
-                    className="border-gray-200/50 dark:border-gray-700/50 hover:bg-gray-50/50 dark:hover:bg-gray-800/50"
+                    className="border-foreground/10 hover:bg-foreground/[0.02]"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
                         key={cell.id}
-                        className="text-gray-900 dark:text-white"
+                        className="text-foreground/95 p-4"
                       >
                         {flexRender(
                           cell.column.columnDef.cell,
@@ -375,10 +370,10 @@ export const CategoryPageContent = ({
                   </TableRow>
                 ))
               ) : (
-                <TableRow className="border-gray-200/50 dark:border-gray-700/50">
+                <TableRow className="border-foreground/10">
                   <TableCell
                     colSpan={columns.length}
-                    className="h-24 text-center text-gray-500 dark:text-gray-400"
+                    className="h-24 text-center font-mono text-xs text-foreground/50"
                   >
                     No results.
                   </TableCell>
@@ -389,23 +384,21 @@ export const CategoryPageContent = ({
         </Card>
       </div>
 
-      <div className="flex items-center justify-end gap-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
+      <div className="flex items-center justify-end gap-3 py-4">
+        <button
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage() || isFetching}
+          className="pixel-btn px-4 py-2 text-[10px] disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
         >
           Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
+        </button>
+        <button
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage() || isFetching}
+          className="pixel-btn px-4 py-2 text-[10px] disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
         >
           Next
-        </Button>
+        </button>
       </div>
     </div>
   )

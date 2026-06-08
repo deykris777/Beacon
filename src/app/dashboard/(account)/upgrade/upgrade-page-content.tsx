@@ -32,10 +32,10 @@ export const UpgradePageContent = ({ plan }: { plan: Plan }) => {
   return (
     <div className="max-w-3xl flex flex-col gap-8">
       <div>
-        <h1 className="mt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+        <h1 className="text-xl font-mono uppercase tracking-wider font-bold text-foreground">
           {plan === "PRO" ? "Plan: Pro" : "Plan: Free"}
         </h1>
-        <p className="text-base text-gray-500 dark:text-gray-400 max-w-prose">
+        <p className="text-xs font-mono text-foreground/50 uppercase tracking-wider mt-2">
           {plan === "PRO"
             ? "Thank you for supporting Procmon. Find your increased usage limits below."
             : "Get access to more events, categories and premium support."}
@@ -43,49 +43,50 @@ export const UpgradePageContent = ({ plan }: { plan: Plan }) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card className="border-2 border-brand-500/50">
-          <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Total Events</p>
-            <BarChart className="size-4 text-brand-500" />
+        <Card className="border-primary bg-card p-5 shadow-[3px_3px_0_0_rgba(0,0,0,0.05)]">
+          <div className="flex flex-row items-center justify-between pb-2">
+            <p className="text-xs font-mono uppercase tracking-wider text-foreground/70">Total Events</p>
+            <BarChart className="size-4 text-primary" />
           </div>
 
           <div>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">
+            <p className="text-xl font-mono font-bold text-primary">
               {usageData?.eventsUsed || 0} of{" "}
               {usageData?.eventsLimit?.toLocaleString() || 100}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+            <p className="text-[10px] font-mono text-foreground/40 uppercase">
               Events this period
             </p>
           </div>
         </Card>
-        <Card>
-          <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Event Categories</p>
-            <BarChart className="size-4 text-brand-500" />
+        
+        <Card className="bg-card border-foreground/10 p-5 shadow-[3px_3px_0_0_rgba(0,0,0,0.05)]">
+          <div className="flex flex-row items-center justify-between pb-2">
+            <p className="text-xs font-mono uppercase tracking-wider text-foreground/70">Event Categories</p>
+            <BarChart className="size-4 text-primary" />
           </div>
 
           <div>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">
+            <p className="text-xl font-mono font-bold text-primary">
               {usageData?.categoriesUsed || 0} of{" "}
               {usageData?.categoriesLimit?.toLocaleString() || 10}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">Active categories</p>
+            <p className="text-[10px] font-mono text-foreground/40 uppercase">Active categories</p>
           </div>
         </Card>
       </div>
 
-      <p className="text-sm text-gray-500 dark:text-gray-400">
+      <p className="text-xs font-mono text-foreground/50 uppercase tracking-wider">
         Usage will reset{" "}
         {usageData?.resetDate ? (
           format(usageData.resetDate, "MMM d, yyyy")
         ) : (
-          <span className="animate-pulse w-8 h-4 bg-gray-200 dark:bg-gray-700 rounded"></span>
+          <span className="inline-block w-8 h-3.5 bg-foreground/10 animate-pulse" />
         )}
         {plan !== "PRO" ? (
           <span
             onClick={() => createCheckoutSession()}
-            className="inline cursor-pointer underline text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 transition-colors"
+            className="inline cursor-pointer underline text-primary hover:text-primary/80 transition-colors font-bold"
           >
             {" "}
             or upgrade now to increase your limit &rarr;

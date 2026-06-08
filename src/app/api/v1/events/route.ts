@@ -11,12 +11,24 @@ const REQUEST_VALIDATOR = z.object({
   description: z.string().optional(),
 }).strict()
 
+// CORS headers for this public API endpoint
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+}
+
+// Handle preflight OPTIONS requests
+export const OPTIONS = async () => {
+  return new NextResponse(null, { status: 204, headers: corsHeaders })
+}
+
 export const POST = async (req: NextRequest) => {
   try {
     const authHeader = req.headers.get("Authorization")
 
     if (!authHeader) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401, headers: corsHeaders })
     }
 
     if (!authHeader.startsWith("Bearer ")) {
@@ -24,14 +36,14 @@ export const POST = async (req: NextRequest) => {
         {
           message: "Invalid auth header format. Expected: 'Bearer [API_KEY]'",
         },
-        { status: 401 }
+        { status: 401, headers: corsHeaders }
       )
     }
 
     const apiKey = authHeader.split(" ")[1]
 
     if (!apiKey || apiKey.trim() === "") {
-      return NextResponse.json({ message: "Invalid API key" }, { status: 401 })
+      return NextResponse.json({ message: "Invalid API key" }, { status: 401, headers: corsHeaders })
     }
 
     const user = await db.user.findUnique({
@@ -40,13 +52,13 @@ export const POST = async (req: NextRequest) => {
     })
 
     if (!user) {
-      return NextResponse.json({ message: "Invalid API key" })
+      return NextResponse.json({ message: "Invalid API key" }, { headers: corsHeaders })
     }
 
     if (!user?.discordId) {
       return NextResponse.json(
         { message: "Please enter your discord ID in your account settings" },
-        { status: 403 }
+        { status: 403, headers: corsHeaders }
       )
     }
 
@@ -73,14 +85,11 @@ export const POST = async (req: NextRequest) => {
         {
           message: "Monthly quota reached. Please upgrade your plan for more events",
         },
-        { status: 429 }
+        { status: 429, headers: corsHeaders }
       )
     }
 
-    const discord = new DiscordClient(process.env.DISCORD_BOT_TOKEN)
-
-    const dmChannel = await discord.createDM(user.discordId)
-
+    // 1. Parse and validate request body first
     let requestData: unknown
 
     try {
@@ -90,7 +99,7 @@ export const POST = async (req: NextRequest) => {
         {
           message: "Invalid JSON request body",
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       )
     }
 
@@ -105,7 +114,7 @@ export const POST = async (req: NextRequest) => {
         {
           message: `You don't have a category named "${validationResult.category}"`,
         },
-        { status: 404 }
+        { status: 404, headers: corsHeaders }
       )
     }
 
@@ -128,6 +137,7 @@ export const POST = async (req: NextRequest) => {
       ),
     }
 
+    // 2. Create the event in the database first (always recorded)
     const event = await db.event.create({
       data: {
         name: category.name,
@@ -138,55 +148,51 @@ export const POST = async (req: NextRequest) => {
       },
     })
 
+    // 3. Attempt Discord delivery
     try {
+      const discord = new DiscordClient(process.env.DISCORD_BOT_TOKEN)
+      const dmChannel = await discord.createDM(user.discordId)
       await discord.sendEmbed(dmChannel.id, eventData)
 
       await db.event.update({
         where: { id: event.id },
         data: { deliveryStatus: "DELIVERED" },
       })
-
-      await db.quota.upsert({
-        where: { userId: user.id, month: currentMonth, year: currentYear },
-        update: { count: { increment: 1 } },
-        create: {
-          userId: user.id,
-          month: currentMonth,
-          year: currentYear,
-          count: 1,
-        },
-      })
     } catch (error) {
+      console.log("Discord delivery failed:", error)
+
       await db.event.update({
         where: { id: event.id },
-        data: { deliveryStatus: "FAILED" }
+        data: { deliveryStatus: "FAILED" },
       })
-
-      console.log(error)
-
-      return NextResponse.json(
-        {
-          message: "Error processing event",
-          eventId: event.id,
-        },
-        { status: 500 }
-      )
     }
+
+    // 4. Always update quota (event was recorded regardless of Discord)
+    await db.quota.upsert({
+      where: { userId: user.id, month: currentMonth, year: currentYear },
+      update: { count: { increment: 1 } },
+      create: {
+        userId: user.id,
+        month: currentMonth,
+        year: currentYear,
+        count: 1,
+      },
+    })
 
     return NextResponse.json({
       message: "Event processed successfully",
-      eventId: event.id
-    })
+      eventId: event.id,
+    }, { headers: corsHeaders })
   } catch (error) {
     console.error(error)
 
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ message: error.message }, { status: 422 })
+      return NextResponse.json({ message: error.message }, { status: 422, headers: corsHeaders })
     }
 
     return NextResponse.json(
       { message: "Internal server error" },
-      { status: 500 }
+      { status: 500, headers: corsHeaders }
     )
   }
 }
