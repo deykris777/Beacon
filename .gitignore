@@ -44,3 +44,5 @@ next-env.d.ts
 /PingPanda
 # .gitignore
 /src/generated 
+# clerk configuration (can include secrets)
+/.clerk/

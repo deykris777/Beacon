@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className={cn(inter.variable, eb_garamond.variable)}>
+      <html lang="en" className={cn(inter.variable, eb_garamond.variable)} suppressHydrationWarning>
         <body className="min-h-[calc(100vh-1px)] flex flex-col font-sans bg-brand-50 dark:bg-dark-background text-brand-950 antialiased">
           <ThemeProvider
             attribute="class"

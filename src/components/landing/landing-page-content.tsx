@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import gsap from "gsap"
@@ -62,6 +62,11 @@ export function LandingPageContent() {
   const heroRef = useRef<HTMLDivElement>(null)
   const featuresRef = useRef<HTMLDivElement>(null)
   const { theme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     if (heroRef.current) {
@@ -358,7 +363,7 @@ export function LandingPageContent() {
                     <div className="max-h-[140px] sm:max-h-48 overflow-hidden text-[9px] sm:text-xs font-mono">
                       <SyntaxHighlighter
                         language="typescript"
-                        style={theme === "dark" ? oneDark : oneLight}
+                        style={mounted && theme === "dark" ? oneDark : oneLight}
                         customStyle={{
                           background: "transparent",
                           margin: 0,

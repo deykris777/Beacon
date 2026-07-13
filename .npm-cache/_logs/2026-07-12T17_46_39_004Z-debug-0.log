@@ -1,0 +1,21 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.8.2
+2 info using node@v20.20.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:C:\project\rishhh\Beacon\ProcMon\ProcMon\.npmrc
+5 silly config load:file:C:\Users\KIIT0001\.npmrc
+6 silly config load:file:C:\Users\KIIT0001\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm rebuild lightningcss
+8 verbose argv "rebuild" "lightningcss"
+9 verbose logfile logs-max:10 dir:C:\project\rishhh\Beacon\ProcMon\ProcMon\.npm-cache\_logs\2026-07-12T17_46_39_004Z-
+10 verbose logfile C:\project\rishhh\Beacon\ProcMon\ProcMon\.npm-cache\_logs\2026-07-12T17_46_39_004Z-debug-0.log
+11 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+12 silly logfile start cleaning logs, removing 1 files
+13 silly logfile done cleaning log files
+14 verbose shrinkwrap failed to load node_modules/.package-lock.json out of date, updated: node_modules
+15 verbose cwd C:\project\rishhh\Beacon\ProcMon\ProcMon
+16 verbose os Windows_NT 10.0.26200
+17 verbose node v20.20.0
+18 verbose npm  v10.8.2
+19 verbose exit 0
+20 info ok
