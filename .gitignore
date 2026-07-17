@@ -40,6 +40,8 @@ next-env.d.ts
 
 # wrangler
 .wrangler
+.open-next
+.npm-cache
 
 /PingPanda
 # .gitignore
