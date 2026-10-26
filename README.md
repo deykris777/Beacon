@@ -1,4 +1,4 @@
-# 📟 Procmon
+# 📟 Beacon
 
 > **Real-time SaaS event monitoring, delivered to your Discord.**
 
@@ -8,9 +8,9 @@
 
 ---
 
-## ⚡ What is Procmon?
+## ⚡ What is Beacon?
 
-Procmon is a full-stack event monitoring app for SaaS teams. Your backend sends event pings to a simple HTTP API. Procmon stores the events, tracks monthly usage, and pushes real-time notifications to Discord. The dashboard lets users manage event categories, view event history, and upgrade plans.
+Beacon is a full-stack event monitoring app for SaaS teams. Your backend sends event pings to a simple HTTP API. Beacon stores the events, tracks monthly usage, and pushes real-time notifications to Discord. The dashboard lets users manage event categories, view event history, and upgrade plans.
 
 ## 🚀 Key Features
 
@@ -33,10 +33,10 @@ Procmon is a full-stack event monitoring app for SaaS teams. Your backend sends 
 
 ## 🧭 How it works
 
-1. User signs up via Clerk and Procmon creates a user record.
+1. User signs up via Clerk and Beacon creates a user record.
 2. User creates event categories in the dashboard.
 3. External services POST events to `/api/v1/events` with the API key.
-4. Procmon stores the event, checks quota, and sends a Discord DM embed.
+4. Beacon stores the event, checks quota, and sends a Discord DM embed.
 5. Dashboard displays event history and usage stats.
 
 ---
@@ -63,7 +63,7 @@ Create a `.env` file in the project root:
 
 ```env
 # Database
-DATABASE_URL="postgresql://user:password@localhost:5432/procmon"
+DATABASE_URL="postgresql://user:password@localhost:5432/beacon"
 
 # Clerk
 CLERK_WEBHOOK_SECRET=""
@@ -117,4 +117,3 @@ curl -X POST "http://localhost:3000/api/v1/events" \
 2. Create a feature branch
 3. Commit your changes
 4. Open a pull request
-
